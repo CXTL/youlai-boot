@@ -38,6 +38,7 @@
         <!-- 对象存储 -->
         <minio.version>8.5.10</minio.version>
         <okhttp3.version>4.8.1</okhttp3.version>
+        <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
 
         <aliyun-sdk-oss.version>3.16.3</aliyun-sdk-oss.version>
 
@@ -56,6 +57,14 @@
             <!--编译测试环境，不打包在lib-->
             <scope>provided</scope>
         </dependency>
+
+        <!--连接logstash相关依赖-->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>cn.hutool</groupId>

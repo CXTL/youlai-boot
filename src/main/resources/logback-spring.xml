@@ -7,6 +7,8 @@
 
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
     <property name="LOG_HOME" value="/logs/${APP_NAME}"/>
+    <!-- 日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN" value="[%X{traceId}] [%-5p] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t@${PID}]  %c %M : %m%n"/>
 
     <!--1. 输出到控制台-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -45,11 +47,18 @@
         </filter>
     </appender>
 
+    <!--输出到 elk-->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>192.168.1.130:20040</destination> <!-- Logstash 服务器地址和端口 -->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
     <!-- 开发环境输出至控制台 -->
     <springProfile name="dev">
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>
+            <appender-ref ref="LOGSTASH" />
         </root>
     </springProfile>
 
@@ -58,6 +67,7 @@
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>
+            <appender-ref ref="LOGSTASH" />
         </root>
     </springProfile>
 </configuration>

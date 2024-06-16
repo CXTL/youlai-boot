@@ -3,6 +3,7 @@ package com.youlai.system.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,6 +25,8 @@ import com.youlai.system.model.vo.UserPageVO;
 import com.youlai.system.security.service.PermissionService;
 import com.youlai.system.service.*;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +45,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+
+    static Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
     private final PasswordEncoder passwordEncoder;
 
@@ -63,7 +68,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public IPage<UserPageVO> listPagedUsers(UserPageQuery queryParams) {
-
+        logger.info("This is an INFO log");
+        logger.error("This is an ERROR log");
+        logger.error("SysUserServiceImpl queryParams start:" + JSONUtil.toJsonStr(queryParams));
         // 参数构建
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
@@ -74,7 +81,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         // 查询数据
         Page<UserBO> userPage = this.baseMapper.listPagedUsers(page, queryParams);
-
+        logger.error("SysUserServiceImpl queryParams end:" + JSONUtil.toJsonStr(userPage));
         // 实体转换
         return userConverter.bo2PageVo(userPage);
     }
