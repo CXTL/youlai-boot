@@ -20,7 +20,7 @@ import java.util.*;
 public class FastAutoGeneratorTest {
 
     private static final DataSourceConfig.Builder DATA_SOURCE_CONFIG = new DataSourceConfig
-            .Builder("jdbc:mysql://localhost:3306/youlai_boot?serverTimezone=Asia/Shanghai", "root", "123456");
+            .Builder("jdbc:mysql://localhost:3306/youlai_boot?serverTimezone=Asia/Shanghai", "root", "root");
 
     /**
      * 执行 run
@@ -71,7 +71,7 @@ public class FastAutoGeneratorTest {
 
                             builder.entityBuilder()
                                     .enableLombok() // 是否使用lombok
-                                    //.enableFileOverride() // 开启覆盖已生成的文件
+                                    .enableFileOverride() // 开启覆盖已生成的文件
                                     .logicDeleteColumnName("deleted") // 逻辑删除字段名
                                     .enableRemoveIsPrefix() // 开启移除is前缀
                             ;
@@ -86,7 +86,7 @@ public class FastAutoGeneratorTest {
                                     );
 
 
-                            builder.addTablePrefix("sys_") // 过滤移除表前缀 sys_user 表生成的实体类 User.java
+                            builder.addTablePrefix("oms_") // 过滤移除表前缀 sys_user 表生成的实体类 User.java
                                     .addInclude(scanner.apply("请输入表名，多个表名用,隔开"));
                         }
                 )
